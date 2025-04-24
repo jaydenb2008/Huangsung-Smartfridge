@@ -1,0 +1,10 @@
+server:
+  port: 9191
+spring:
+  application:
+    name: WebClient
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  data:
+    rest:
+      base-path: http://localhost:9090
