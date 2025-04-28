@@ -1,7 +1,7 @@
 package edu.sdccd.cisc191.server;
 
-import edu.sdccd.cisc191.common.model.User;
-import edu.sdccd.cisc191.server.repositories.UserRepository;
+import edu.sdccd.cisc191.common.model.FoodItem;
+import edu.sdccd.cisc191.server.repositories.FoodRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @SpringBootApplication
 @EntityScan("edu.sdccd.cisc191.common.model")
 public class Server implements CommandLineRunner {
-    private final UserRepository userRepository;
+    private final FoodRepository foodRepository;
 
-    public Server(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public Server(FoodRepository foodRepository) {
+        this.foodRepository = foodRepository;
     }
 
     public static void main(String[] args) {
@@ -23,14 +23,12 @@ public class Server implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User alice = new User();
-        alice.setName("Alice");
-        alice.setEmail("alice@smith.com");
-        userRepository.save(alice);
+        FoodItem apple = new FoodItem();
+        apple.setName("apple");
+        foodRepository.save(apple);
 
-        User bob = new User();
-        bob.setName("Bob");
-        bob.setEmail("bob@smith.com");
-        userRepository.save(bob);
+        FoodItem cheese = new FoodItem();
+        cheese.setName("cheese");
+        foodRepository.save(cheese);
     }
 }

@@ -1,6 +1,6 @@
 package edu.sdccd.cisc191.jfxclient.controllers;
 
-import edu.sdccd.cisc191.common.model.User;
+import edu.sdccd.cisc191.common.model.FoodItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,25 +15,30 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class UserController implements Initializable {
+public class FoodController implements Initializable {
 
     @FXML
-    private TableView<User> personTable;
+    private TableView<FoodItem> personTable;
     @FXML
-    private TableColumn<User, Long> idColumn;
+    private TableColumn<FoodItem, Long> idColumn;
     @FXML
-    private TableColumn<User, String> nameColumn;
+    private TableColumn<FoodItem, String> nameColumn;
     @FXML
-    private TableColumn<User, String> emailColumn;
+    private TableColumn<FoodItem, String> foodTypeColumn;
+    @FXML
+    private TableColumn<FoodItem, Float> quantityColumn;
+    @FXML
+    private TableColumn<FoodItem, Date> expirationColumn;
 
     private final RestTemplate restTemplate;
     @Value("${spring.data.rest.base-path}")
     private String basePath;
-    public UserController(RestTemplateBuilder restTemplateBuilder) {
+    public FoodController(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
@@ -41,7 +46,9 @@ public class UserController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        foodTypeColumn.setCellValueFactory(new PropertyValueFactory<>("food type"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity left"));
+        expirationColumn.setCellValueFactory(new PropertyValueFactory<>("expiration date"));
 
         loadUserData();
     }
@@ -49,11 +56,11 @@ public class UserController implements Initializable {
     private void loadUserData() {
 
         String apiUrl = basePath + "/users";
-        User[] users = restTemplate.getForObject(apiUrl, User[].class);
+        FoodItem[] foodItems = restTemplate.getForObject(apiUrl, FoodItem[].class);
 
-        if (users != null) {
-            List<User> personList = Arrays.asList(users);
-            ObservableList<User> observableList = FXCollections.observableArrayList(personList);
+        if (foodItems != null) {
+            List<FoodItem> foodList = Arrays.asList(foodItems);
+            ObservableList<FoodItem> observableList = FXCollections.observableArrayList(foodList);
             personTable.setItems(observableList);
         } else {
             // Handle the case where the API request fails or returns null

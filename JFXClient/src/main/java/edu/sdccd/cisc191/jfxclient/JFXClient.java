@@ -22,7 +22,7 @@ public class JFXClient extends Application {
     }
     @Override
     public void start(Stage stage) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/users.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/foods.fxml"));
         fxmlLoader.setControllerFactory(applicationContext::getBean);
         Parent root = null;
         try {

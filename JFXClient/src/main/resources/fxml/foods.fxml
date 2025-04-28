@@ -6,13 +6,15 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="edu.sdccd.cisc191.jfxclient.controllers.UserController">
+      fx:controller="edu.sdccd.cisc191.jfxclient.controllers.FoodController">
 
-    <TableView fx:id="personTable">
+    <TableView fx:id="foodTable">
         <columns>
             <TableColumn text="ID" fx:id = "idColumn"  />
             <TableColumn text="Name" fx:id = "nameColumn" />
-            <TableColumn text="Email" fx:id = "emailColumn" />
+            <TableColumn text="Food Type" fx:id="foodTypeColumn"/>
+            <TableColumn text="Quantity Left" fx:id = "quantityColumn" />
+            <TableColumn text="Expiration Date" fx:id = "expirationColumn"/>
         </columns>
     </TableView>
 </VBox>
