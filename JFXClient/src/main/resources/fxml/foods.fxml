@@ -3,12 +3,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.TextField?>
 
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="edu.sdccd.cisc191.jfxclient.controllers.FoodController">
+      fx:controller="edu.sdccd.cisc191.jfxclient.controllers.FoodController"
+      spacing="10" padding="10">
 
-    <TableView fx:id="foodTable">
+    <TextField fx:id="searchField" promptText="Search by name..." />
+
+    <TableView fx:id="personTable">
         <columns>
             <TableColumn text="ID" fx:id = "idColumn"  />
             <TableColumn text="Name" fx:id = "nameColumn" />
@@ -17,4 +22,9 @@
             <TableColumn text="Expiration Date" fx:id = "expirationColumn"/>
         </columns>
     </TableView>
+
+    <HBox spacing="10">
+        <Button text="Add Item" onAction="#handleAdd" />
+        <Button text="Remove Selected" onAction="#handleRemove" />
+    </HBox>
 </VBox>
