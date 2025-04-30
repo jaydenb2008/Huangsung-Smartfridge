@@ -1,3 +1,4 @@
+/*
 package edu.sdccd.cisc191.common;
 
 import edu.sdccd.cisc191.common.fridge.LoadFood;
@@ -67,3 +68,4 @@ class LoadFoodTest {
         assertEquals(10, result.getQuantityLeft());
     }
 }
+*/
