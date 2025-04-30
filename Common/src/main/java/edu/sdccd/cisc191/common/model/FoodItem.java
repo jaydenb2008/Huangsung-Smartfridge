@@ -1,16 +1,15 @@
 package edu.sdccd.cisc191.common.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
-public class FoodItem {
+@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "item_type")
+public class FoodItem implements Comparable<FoodItem> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -96,6 +95,11 @@ public class FoodItem {
      */
     public synchronized boolean isExpired(Date expiration) {
         return new Date().after(expiration);
+    }
+
+    @Override
+    public int compareTo(FoodItem otherFood) {
+        return this.name.compareToIgnoreCase(otherFood.getName());
     }
 
 }

@@ -66,8 +66,7 @@ public class LoadFood {
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
             // Iterate through the 2D array of food items in Storage
-            for (int i = 0; i < storage.getItemCount(); i++) {
-                FoodItem item = storage.getFoodItem(i);
+            for (FoodItem item : storage) {
 
                 if (item != null) {
                     // Write each food item as a CSV line

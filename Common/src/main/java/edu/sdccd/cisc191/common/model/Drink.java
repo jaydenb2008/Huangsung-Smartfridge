@@ -1,10 +1,12 @@
 package edu.sdccd.cisc191.common.model;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 import java.util.Date;
 
 @Entity
+@DiscriminatorValue("Drink")
 public class Drink extends FoodItem {
     private boolean isOpened;
 

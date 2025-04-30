@@ -5,15 +5,10 @@ import java.util.List;
 import edu.sdccd.cisc191.common.model.FoodItem;
 import edu.sdccd.cisc191.server.exceptions.FoodNotFoundException;
 import edu.sdccd.cisc191.server.repositories.FoodRepository;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/food")
 class FoodController {
 
     private final FoodRepository repository;
@@ -25,27 +20,27 @@ class FoodController {
 
     // Aggregate root
     // tag::get-aggregate-root[]
-    @GetMapping("/users")
+    @GetMapping("/foods")
     List<FoodItem> all() {
         return repository.findAll();
     }
     // end::get-aggregate-root[]
 
-    @PostMapping("/users")
+    @PostMapping("/foods")
     FoodItem newUser(@RequestBody FoodItem newFoodItem) {
         return repository.save(newFoodItem);
     }
 
     // Single item
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/foods/{id}")
     FoodItem one(@PathVariable Long id) {
 
         return repository.findById(id)
                 .orElseThrow(() -> new FoodNotFoundException(id));
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/foods/{id}")
     FoodItem replaceUser(@RequestBody FoodItem newFoodItem, @PathVariable Long id) {
 
         return repository.findById(id)
@@ -58,7 +53,7 @@ class FoodController {
                 });
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/foods/{id}")
     void deleteUser(@PathVariable Long id) {
         repository.deleteById(id);
     }

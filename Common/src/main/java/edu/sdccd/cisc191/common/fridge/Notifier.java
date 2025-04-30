@@ -15,8 +15,6 @@ public class Notifier extends Thread {
     private final NotifierListener listener;
 
 
-
-
     public Notifier(String name, Storage storage, NotifierListener listener) {
         this.name = name;
         this.storage = storage;
@@ -40,9 +38,8 @@ public class Notifier extends Thread {
             }
 
             int expiredCount = 0;
-            for (int i = 0; i < storage.getItemCount(); i++) {
-                FoodItem item = storage.getFoodItem(i);
 
+            for (FoodItem item : storage) {
                 if (item != null && item.isExpired(item.getExpirationDate())) {
                     System.out.printf("%s is expired!%n", item.getName());
                     // Store expired item details

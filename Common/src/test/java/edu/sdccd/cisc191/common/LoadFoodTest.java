@@ -17,7 +17,7 @@ class LoadFoodTest {
 
     @BeforeEach
     void setUp() {
-        storage = new Storage(5); // Initialize Storage object before each test
+        storage = new Storage(); // Initialize Storage object before each test
     }
 
     @Test
@@ -33,7 +33,7 @@ class LoadFoodTest {
         assertTrue(storage.getItemCount() > 0, "Storage should contain food items after loading.");
 
         // Verify the first item loaded
-        FoodItem item = storage.getFoodItem(0);
+        FoodItem item = storage.findFoodByName("Apple");
         assertNotNull(item, "Food item should not be null.");
         assertEquals("Apple", item.getName(), "First item's name should be Apple.");
         assertEquals("Fruit", item.getFoodType(), "First item's food type should be Fruit.");
@@ -56,15 +56,14 @@ class LoadFoodTest {
         File file = new File(filename);
         assertTrue(file.exists(), "The file should exist after saving.");
 
-        // Now, let's load the food items back and verify the contents
-        Storage newStorage = new Storage(5);
+        // load the food items back and verify the contents
+        Storage newStorage = new Storage();
         LoadFood.loadFoodItems(filename, newStorage);
 
         // Ensure the loaded storage has the same data
         assertEquals(1, newStorage.getItemCount(), "There should be one food item loaded.");
-        FoodItem loadedItem = newStorage.getFoodItem(0);
-        assertEquals("Apple", loadedItem.getName(), "Loaded item should be an Apple.");
-        assertEquals("Fruit", loadedItem.getFoodType(), "Loaded item should be of type Fruit.");
-        assertEquals(10, loadedItem.getQuantityLeft(), "Loaded item quantity should be 10.");
+        FoodItem result = newStorage.findFoodByName("Apple");
+        assertNotNull(result);
+        assertEquals(10, result.getQuantityLeft());
     }
 }

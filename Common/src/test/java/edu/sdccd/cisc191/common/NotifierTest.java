@@ -13,7 +13,7 @@ class NotifierTest {
 
     @Test
     void testNotifierThread() throws InterruptedException {
-        Storage testFridge = new Storage(4);
+        Storage testFridge = new Storage();
         NotifierListener listener = new NotifierListener() {
 
             @Override
@@ -32,7 +32,7 @@ class NotifierTest {
         testFridge.addFood(milk);
         testFridge.addFood(lemonade);
 
-        int notifierCount = testFridge.getFridgeSize();
+        int notifierCount = testFridge.getItemCount();
         Notifier[] notifiers = new Notifier[notifierCount];
 
 
@@ -49,13 +49,11 @@ class NotifierTest {
         }
 
         int expiredCount = 0;
-        for (int i = 0; i < testFridge.getItemCount(); i++) {
-            FoodItem item = testFridge.getFoodItem(i);
+        for (FoodItem item : testFridge) {
             if(item.isExpired(item.getExpirationDate())) {
                 expiredCount++;
             }
         }
-
         assertEquals(2, expiredCount);
     }
 }
