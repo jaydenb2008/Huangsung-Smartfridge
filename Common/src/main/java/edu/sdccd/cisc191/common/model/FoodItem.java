@@ -17,6 +17,8 @@ public class FoodItem implements Comparable<FoodItem> {
     private String name;
     private String foodType;
     private float quantityLeft;
+
+    @Temporal(TemporalType.DATE)
     private Date expirationDate;
 
     public FoodItem() {}

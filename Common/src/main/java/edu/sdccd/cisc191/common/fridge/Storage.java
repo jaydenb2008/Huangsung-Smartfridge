@@ -1,6 +1,8 @@
 package edu.sdccd.cisc191.common.fridge;
 
 import edu.sdccd.cisc191.common.model.FoodItem;
+import org.springframework.stereotype.Service;
+
 import java.util.TreeSet;
 
 /**
@@ -9,6 +11,8 @@ import java.util.TreeSet;
  * int fridgeSize = the amount of food items the fridge can store
  * int itemCount = the number of food items in the fridge (initially set to 0)
  */
+
+@Service
 public class Storage extends TreeSet<FoodItem>{
     private final TreeSet<FoodItem> foodItemTreeSet;
 

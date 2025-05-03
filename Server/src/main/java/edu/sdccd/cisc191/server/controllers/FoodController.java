@@ -27,7 +27,7 @@ class FoodController {
     // end::get-aggregate-root[]
 
     @PostMapping("/foods")
-    FoodItem newUser(@RequestBody FoodItem newFoodItem) {
+    FoodItem newFood(@RequestBody FoodItem newFoodItem) {
         return repository.save(newFoodItem);
     }
 
@@ -41,20 +41,18 @@ class FoodController {
     }
 
     @PutMapping("/foods/{id}")
-    FoodItem replaceUser(@RequestBody FoodItem newFoodItem, @PathVariable Long id) {
+    FoodItem replaceFood(@RequestBody FoodItem newFoodItem, @PathVariable Long id) {
 
         return repository.findById(id)
-                .map(user -> {
-                    user.setName(newFoodItem.getName());
-                    return repository.save(user);
+                .map(food -> {
+                    food.setName(newFoodItem.getName());
+                    return repository.save(food);
                 })
-                .orElseGet(() -> {
-                    return repository.save(newFoodItem);
-                });
+                .orElseGet(() -> repository.save(newFoodItem));
     }
 
     @DeleteMapping("/foods/{id}")
-    void deleteUser(@PathVariable Long id) {
+    void deleteFood(@PathVariable Long id) {
         repository.deleteById(id);
     }
 }
