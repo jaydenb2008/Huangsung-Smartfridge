@@ -13,7 +13,7 @@
 
     <TextField fx:id="searchField" promptText="Search by name..." />
 
-    <TableView fx:id="personTable">
+    <TableView fx:id="foodTable">
         <columns>
             <TableColumn text="ID" fx:id = "idColumn"  />
             <TableColumn text="Name" fx:id = "nameColumn" />

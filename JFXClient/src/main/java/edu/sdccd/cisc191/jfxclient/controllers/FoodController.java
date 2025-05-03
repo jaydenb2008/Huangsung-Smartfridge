@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 public class FoodController implements Initializable {
 
     @FXML
-    private TableView<FoodItem> personTable;
+    private TableView<FoodItem> foodTable;
     @FXML
     private TableColumn<FoodItem, Long> idColumn;
     @FXML
@@ -39,7 +39,7 @@ public class FoodController implements Initializable {
     private TableColumn<FoodItem, Date> expirationColumn;
     @FXML
     private TextField searchField;
-    private ObservableList<FoodItem> fullFoodList = FXCollections.observableArrayList();
+    private final ObservableList<FoodItem> fullFoodList = FXCollections.observableArrayList();
 
     private final RestTemplate restTemplate;
     @Value("${spring.data.rest.base-path}")
@@ -56,16 +56,14 @@ public class FoodController implements Initializable {
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantityLeft"));
         expirationColumn.setCellValueFactory(new PropertyValueFactory<>("expirationDate"));
 
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filterList(newValue);
-        });
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filterList(newValue));
 
         loadUserData();
     }
 
     private void filterList(String query) {
         if (query == null || query.isEmpty()) {
-            personTable.setItems(fullFoodList);
+            foodTable.setItems(fullFoodList);
         } else {
             ObservableList<FoodItem> filtered = FXCollections.observableArrayList();
             for (FoodItem item : fullFoodList) {
@@ -73,23 +71,23 @@ public class FoodController implements Initializable {
                     filtered.add(item);
                 }
             }
-            personTable.setItems(filtered);
+            foodTable.setItems(filtered);
         }
     }
 
     private void loadUserData() {
 
-        String apiUrl = basePath + "/users";
+        String apiUrl = basePath + "/foods";
         FoodItem[] foodItems = restTemplate.getForObject(apiUrl, FoodItem[].class);
 
         if (foodItems != null) {
             List<FoodItem> foodList = Arrays.asList(foodItems);
             fullFoodList.setAll(foodList); // ensures filtering works
-            personTable.setItems(fullFoodList);
+            foodTable.setItems(fullFoodList);
             checkExpirations(foodList);
         } else {
             // Handle the case where the API request fails or returns null
-            System.err.println("Failed to load person data from the API.");
+            System.err.println("Failed to load food data from the API.");
         }
     }
     private void checkExpirations(List<FoodItem> foodList) {
@@ -109,14 +107,14 @@ public class FoodController implements Initializable {
         }
 
         StringBuilder message = new StringBuilder();
-        if (expired.length() > 0) {
+        if (!expired.isEmpty()) {
             message.append("❗ Expired Items:\n").append(expired);
         }
-        if (upcoming.length() > 0) {
+        if (!upcoming.isEmpty()) {
             message.append("\n⏳ Upcoming Expirations:\n").append(upcoming);
         }
 
-        if (message.length() > 0) {
+        if (!message.isEmpty()) {
             showExpirationAlert(message.toString());
         }
     }
@@ -135,16 +133,16 @@ public class FoodController implements Initializable {
         // For demo
         FoodItem newItem = new FoodItem( "New Food", "Snack", 1.0f, new Date());
         fullFoodList.add(newItem);
-        personTable.setItems(fullFoodList);
+        foodTable.setItems(fullFoodList);
         // TODO: POST to server if possible
     }
 
     @FXML
     private void handleRemove() {
-        FoodItem selected = personTable.getSelectionModel().getSelectedItem();
+        FoodItem selected = foodTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
             fullFoodList.remove(selected);
-            personTable.setItems(fullFoodList);
+            foodTable.setItems(fullFoodList);
             //TODO: Delete from server too if possible
         }
     }
