@@ -13,7 +13,7 @@ import java.util.TreeSet;
  */
 
 @Service
-public class Storage extends TreeSet<FoodItem>{
+public class Storage {
     private final TreeSet<FoodItem> foodItemTreeSet;
 
     public Storage() {

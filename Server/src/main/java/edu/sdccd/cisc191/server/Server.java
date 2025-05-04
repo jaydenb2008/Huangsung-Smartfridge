@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191.server;
 
+import edu.sdccd.cisc191.common.model.Drink;
 import edu.sdccd.cisc191.common.model.FoodItem;
 import edu.sdccd.cisc191.server.repositories.FoodRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -7,6 +8,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+/**
+ * This class starts up the Spring Boot Application which
+ * adds food items to the repository
+ */
 @SpringBootApplication
 @EntityScan("edu.sdccd.cisc191.common.model")
 public class Server implements CommandLineRunner {
@@ -16,6 +21,7 @@ public class Server implements CommandLineRunner {
         this.foodRepository = foodRepository;
     }
 
+    //start up the server
     public static void main(String[] args) {
         SpringApplication.run(Server.class, args);
     }
@@ -30,11 +36,11 @@ public class Server implements CommandLineRunner {
         apple.setQuantityLeft(5.0f);
         foodRepository.save(apple);
 
-        FoodItem cheese = new FoodItem();
-        cheese.setName("cheese");
-        cheese.setFoodType("dairy");
-        cheese.setExpirationDate(FoodItem.convertToDate("09-26-2026"));
-        cheese.setQuantityLeft(0.75f);
-        foodRepository.save(cheese);
+        Drink milk = new Drink();
+        milk.setName("cheese");
+        milk.setFoodType("dairy");
+        milk.setExpirationDate(FoodItem.convertToDate("09-26-2026"));
+        milk.setQuantityLeft(0.75f);
+        foodRepository.save(milk);
     }
 }

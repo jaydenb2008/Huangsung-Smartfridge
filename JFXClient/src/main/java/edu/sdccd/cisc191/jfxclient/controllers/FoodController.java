@@ -130,20 +130,21 @@ public class FoodController implements Initializable {
 
     @FXML
     private void handleAdd() {
-        // For demo
         FoodItem newItem = new FoodItem( "New Food", "Snack", 1.0f, new Date());
-        fullFoodList.add(newItem);
-        foodTable.setItems(fullFoodList);
-        // TODO: POST to server if possible
+        FoodItem savedItem = restTemplate.postForObject(basePath + "/foods", newItem, FoodItem.class);
+        if (savedItem != null) {
+            fullFoodList.add(newItem);
+            foodTable.setItems(fullFoodList);
+        }
     }
 
     @FXML
     private void handleRemove() {
         FoodItem selected = foodTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            restTemplate.delete(basePath + "/foods/" + selected.getId());
             fullFoodList.remove(selected);
             foodTable.setItems(fullFoodList);
-            //TODO: Delete from server too if possible
         }
     }
 }

@@ -31,7 +31,7 @@ public class JFXClient extends Application {
             throw new RuntimeException(e);
         }
         Scene scene = new Scene(root, 600, 400);
-        stage.setTitle("User Data");
+        stage.setTitle("Food Data");
         stage.setScene(scene);
         stage.show();
 
