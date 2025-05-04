@@ -13,7 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
@@ -78,16 +80,21 @@ public class FoodController implements Initializable {
     private void loadUserData() {
 
         String apiUrl = basePath + "/foods";
-        FoodItem[] foodItems = restTemplate.getForObject(apiUrl, FoodItem[].class);
 
-        if (foodItems != null) {
-            List<FoodItem> foodList = Arrays.asList(foodItems);
-            fullFoodList.setAll(foodList); // ensures filtering works
-            foodTable.setItems(fullFoodList);
-            checkExpirations(foodList);
-        } else {
-            // Handle the case where the API request fails or returns null
-            System.err.println("Failed to load food data from the API.");
+
+        try {
+            FoodItem[] foodItems = restTemplate.getForObject(apiUrl, FoodItem[].class);
+            if (foodItems != null) {
+                List<FoodItem> foodList = Arrays.asList(foodItems);
+                fullFoodList.setAll(foodList); // ensures filtering works
+                foodTable.setItems(fullFoodList);
+                checkExpirations(foodList);
+            } else {
+                // Handle the case where the API request fails or returns null
+                System.err.println("Failed to load food data from the API.");
+            }
+        } catch (ResourceAccessException e) {
+            System.err.println("Could not reach server: " + e.getMessage());
         }
     }
     private void checkExpirations(List<FoodItem> foodList) {
