@@ -7,9 +7,13 @@
 
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="edu.sdccd.cisc191.jfxclient.controllers.FoodController"
-      spacing="10" padding="10">
+      spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
 
     <TextField fx:id="searchField" promptText="Search by name..." />
 
