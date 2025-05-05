@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StorageTest {
-    private Storage testFridge;
+    private Storage<FoodItem> testFridge;
     FoodItem tomatoes, eggs;
     Drink milk, lemonade;
 
@@ -30,6 +30,7 @@ public class StorageTest {
 
         FoodItem result = testFridge.findFoodByName("Tomatoes");
         assertNotNull(result);
+        assertEquals(1, testFridge.getItemCount());
         assertEquals("Tomatoes", result.getName());
     }
 
@@ -43,5 +44,15 @@ public class StorageTest {
     @Test
     void testFindNonexistentFood() {
         assertNull(testFridge.findFoodByName("Strawberries"));
+    }
+
+    @Test
+    void testGenericFridge() {
+        Storage<String> stringStorage = new Storage<>();
+
+        stringStorage.addFood("Ketchup");
+        stringStorage.addFood("Chicken");
+
+        assertEquals(2, stringStorage.getItemCount());
     }
 }

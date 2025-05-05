@@ -13,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
@@ -60,7 +59,7 @@ public class FoodController implements Initializable {
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> filterList(newValue));
 
-        loadUserData();
+        loadFoodData();
     }
 
     private void filterList(String query) {
@@ -77,10 +76,8 @@ public class FoodController implements Initializable {
         }
     }
 
-    private void loadUserData() {
-
+    private void loadFoodData() {
         String apiUrl = basePath + "/foods";
-
 
         try {
             FoodItem[] foodItems = restTemplate.getForObject(apiUrl, FoodItem[].class);
@@ -97,6 +94,7 @@ public class FoodController implements Initializable {
             System.err.println("Could not reach server: " + e.getMessage());
         }
     }
+
     private void checkExpirations(List<FoodItem> foodList) {
         StringBuilder upcoming = new StringBuilder();
         StringBuilder expired = new StringBuilder();
@@ -125,6 +123,7 @@ public class FoodController implements Initializable {
             showExpirationAlert(message.toString());
         }
     }
+
     private void showExpirationAlert(String message) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.WARNING);

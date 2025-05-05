@@ -19,11 +19,7 @@ public class Drink extends FoodItem {
         this.isOpened = isOpened;
     }
 
-    public boolean getOpened() {
-        return isOpened;
-    }
-
-    public void setOpened() {
+    public void setOpened(boolean opened) {
         this.isOpened = isOpened;
     }
 
