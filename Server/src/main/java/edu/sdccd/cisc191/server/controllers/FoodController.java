@@ -32,7 +32,7 @@ class FoodController {
     @PostMapping("/foods")
     FoodItem newFood(@RequestBody FoodItem newFoodItem) {
         FoodItem saved = foodRepository.save(newFoodItem);
-        storage.addFood(saved);
+        storage.add(saved);
         return saved;
     }
 
@@ -48,7 +48,7 @@ class FoodController {
     FoodItem replaceFood(@RequestBody FoodItem newFoodItem, @PathVariable Long id) {
         return foodRepository.findById(id)
                 .map(food -> {
-                    storage.removeFood(food);
+                    storage.remove(food);
                     food.setName(newFoodItem.getName());
                     food.setFoodType(newFoodItem.getFoodType());
                     food.setQuantityLeft(newFoodItem.getQuantityLeft());
@@ -59,12 +59,12 @@ class FoodController {
                     }
 
                     FoodItem updated = foodRepository.save(food);
-                    storage.addFood(updated);
+                    storage.add(updated);
                     return updated;
                 })
                 .orElseGet(() -> {
                     FoodItem saved = foodRepository.save(newFoodItem);
-                    storage.addFood(saved);
+                    storage.add(saved);
                     return saved;
                 });
     }
@@ -72,7 +72,7 @@ class FoodController {
     @DeleteMapping("/foods/{id}")
     void deleteFood(@PathVariable Long id) {
         foodRepository.findById(id).ifPresent(food -> {
-            storage.removeFood(food);
+            storage.remove(food);
             foodRepository.deleteById(id);
         });
     }

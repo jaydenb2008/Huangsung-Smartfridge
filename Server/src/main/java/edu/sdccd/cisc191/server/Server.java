@@ -37,7 +37,7 @@ public class Server implements CommandLineRunner {
         apple.setFoodType("fruit");
         apple.setExpirationDate(FoodItem.convertToDate("06-04-2026"));
         apple.setQuantityLeft(5.0f);
-        storage.addFood(apple);
+        storage.add(apple);
         foodRepository.save(apple);
 
         Drink milk = new Drink();

@@ -100,8 +100,20 @@ public class FoodItem implements Comparable<FoodItem> {
     }
 
     @Override
-    public int compareTo(FoodItem otherFood) {
-        return this.name.compareToIgnoreCase(otherFood.getName());
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        FoodItem that = (FoodItem) obj;
+        return name.equalsIgnoreCase(that.name);  // or another attribute
     }
 
+    @Override
+    public int hashCode() {
+        return name.toLowerCase().hashCode();
+    }
+
+    @Override
+    public int compareTo(FoodItem other) {
+        return this.name.compareToIgnoreCase(other.name);
+    }
 }

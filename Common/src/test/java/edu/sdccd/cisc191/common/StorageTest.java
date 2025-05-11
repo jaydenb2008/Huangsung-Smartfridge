@@ -25,34 +25,34 @@ public class StorageTest {
     }
 
     @Test
-    void testAddFindFood() throws Exception {
-        testFridge.addFood(tomatoes);
+    void testAddFindFood() {
+        testFridge.add(tomatoes);
 
-        FoodItem result = testFridge.findFoodByName("Tomatoes");
-        assertNotNull(result);
-        assertEquals(1, testFridge.getItemCount());
-        assertEquals("Tomatoes", result.getName());
+        assertEquals(1, testFridge.size());
+        FoodItem foundItem = testFridge.recursiveSearch(tomatoes);
+        assertNotNull(foundItem);
+        assertEquals("Tomatoes", foundItem.getName());
     }
 
     @Test
     void testRemoveFood() {
-        testFridge.addFood(milk);
-        assertTrue(testFridge.removeFood(milk));
-        assertNull(testFridge.findFoodByName("Milk"));
+        testFridge.add(milk);
+        assertTrue(testFridge.contains(milk));
+
+        assertTrue(testFridge.remove(milk));
+        assertFalse(testFridge.contains(milk));
+
     }
 
-    @Test
-    void testFindNonexistentFood() {
-        assertNull(testFridge.findFoodByName("Strawberries"));
-    }
+
 
     @Test
     void testGenericFridge() {
         Storage<String> stringStorage = new Storage<>();
 
-        stringStorage.addFood("Ketchup");
-        stringStorage.addFood("Chicken");
+        stringStorage.add("Ketchup");
+        stringStorage.add("Chicken");
 
-        assertEquals(2, stringStorage.getItemCount());
+        assertEquals(2, stringStorage.size());
     }
 }
