@@ -1,9 +1,8 @@
 package edu.sdccd.cisc191.common.fridge;
 
 import jakarta.persistence.*;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
+
+import java.util.*;
 
 
 @Entity
@@ -109,8 +108,19 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
 
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        List<T> items = new ArrayList<>();
+        inOrderTraversal(root, items);
+        return items.iterator();
     }
+
+    private void inOrderTraversal(TreeNode<T> node, List<T> items) {
+        if (node != null) {
+            inOrderTraversal(node.left, items);
+            items.add(node.item);
+            inOrderTraversal(node.right, items);
+        }
+    }
+
 
     @Override
     public Object[] toArray() {
