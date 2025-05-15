@@ -2,32 +2,41 @@ package edu.sdccd.cisc191.common.model;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
 
 import java.util.Date;
 
 @Entity
 @DiscriminatorValue("Drink")
 public class Drink extends FoodItem {
-    private boolean isOpened;
+
+    @Column(name = "is_opened")
+    private Boolean opened;  // Use Boolean for compatibility with FoodItem and nullability
 
     public Drink() {
         super();
     }
 
-    public Drink(String name, String foodType, float quantityLeft, Date expirationDate, boolean isOpened) {
+    public Drink(String name, String foodType, float quantityLeft, Date expirationDate, Boolean opened) {
         super(name, foodType, quantityLeft, expirationDate);
-        this.isOpened = isOpened;
+        this.opened = opened;
     }
 
-    public boolean getOpened() {
-        return isOpened;
+    @Override
+    public Boolean getOpened() {
+        return opened;
     }
 
-    public void setOpened() {
-        this.isOpened = isOpened;
+
+
+
+
+    public Boolean isOpened() {
+        return getOpened();
     }
 
-    public boolean isOpened() {
-        return isOpened;
+
+    public void setOpened(Boolean opened) {
+        this.opened = opened;
     }
 }

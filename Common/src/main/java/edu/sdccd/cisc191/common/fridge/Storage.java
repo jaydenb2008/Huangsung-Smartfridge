@@ -4,6 +4,7 @@ import edu.sdccd.cisc191.common.model.FoodItem;
 import org.springframework.stereotype.Service;
 
 import java.util.TreeSet;
+import java.util.Comparator;
 
 /**
  * Describes the attributes, methods, and behavior of a storage class
@@ -17,8 +18,9 @@ public class Storage {
     private final TreeSet<FoodItem> foodItemTreeSet;
 
     public Storage() {
-        foodItemTreeSet = new TreeSet<FoodItem>();
+        foodItemTreeSet = new TreeSet<>((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
     }
+
 
     public int getItemCount() {
         return foodItemTreeSet.size();

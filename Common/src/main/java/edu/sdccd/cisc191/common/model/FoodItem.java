@@ -2,24 +2,41 @@ package edu.sdccd.cisc191.common.model;
 
 import jakarta.persistence.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "item_type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Drink.class, name = "Drink")
+})
 
 @Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "item_type")
-public class FoodItem implements Comparable<FoodItem> {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "food_type", discriminatorType = DiscriminatorType.STRING)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class FoodItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String name;
+    @Column(name = "food_type")
     private String foodType;
     private float quantityLeft;
 
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
+
+
+
+
 
     public FoodItem() {}
 
@@ -30,11 +47,36 @@ public class FoodItem implements Comparable<FoodItem> {
         this.expirationDate = expirationDate;
     }
 
-    public long getId() {
+    public FoodItem(Long id, String name, String foodType, float quantityLeft, Date expirationDate) {
+        this.id = id;
+        this.name = name;
+        this.foodType = foodType;
+        this.quantityLeft = quantityLeft;
+        this.expirationDate = expirationDate;
+    }
+
+    // This constructor lets you use JavaFX/REST/JSON with LocalDate and Boolean
+    public FoodItem(Long id, String name, String foodType, double quantityLeft, LocalDate expirationDate, Boolean opened) {
+        this.id = id;
+        this.name = name;
+        this.foodType = foodType;
+        this.quantityLeft = (float) quantityLeft;
+        this.expirationDate = (expirationDate == null) ? null : java.sql.Date.valueOf(expirationDate);
+        // 'opened' ignored; Drink class should handle it
+    }
+
+    public static Date convertToDate(String s) {
+        return null;
+    }
+
+
+    // ----- Getters and Setters -----
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -62,7 +104,7 @@ public class FoodItem implements Comparable<FoodItem> {
         this.quantityLeft = quantityLeft;
     }
 
-    public synchronized Date getExpirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
 
@@ -70,38 +112,8 @@ public class FoodItem implements Comparable<FoodItem> {
         this.expirationDate = expirationDate;
     }
 
-
-
-    /**
-     * Converts the user's valid String expiration date input into a Date for constructing the FoodItem object
-     * @param userInputDate = the String expiration date the user inputs in the UI
-     * @return the user's date converted from a String to a Date
-     */
-    public static Date convertToDate(String userInputDate) {
-        Date date = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
-
-        try {
-            date = formatter.parse(userInputDate);
-        } catch (ParseException e) {
-            System.out.println("Error parsing date: " + e.getMessage());
-        }
-
-        return date;
-    }
-
-    /**
-     * Checks if the food item is expired based on the current date and expirationDate attribute
-     * @param expiration the expiration date of the food item
-     * @return true if the current date is after the expiration date, false otherwise
-     */
-    public synchronized boolean isExpired(Date expiration) {
-        return new Date().after(expiration);
-    }
-
-    @Override
-    public int compareTo(FoodItem otherFood) {
-        return this.name.compareToIgnoreCase(otherFood.getName());
+    public Boolean getOpened() {
+        return null; // Or you can return false if you prefer
     }
 
 }

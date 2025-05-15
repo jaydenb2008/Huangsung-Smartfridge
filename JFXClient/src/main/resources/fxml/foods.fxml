@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TextField?>
-
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="edu.sdccd.cisc191.jfxclient.controllers.FoodController"
-      spacing="10">
+      spacing="10" fillWidth="true">
+
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
 
-    <TextField fx:id="searchField" promptText="Search by name..." />
+    <!-- Search bar and clear button
+    <HBox spacing="10">
+        <TextField fx:id="searchField" promptText="Search by name or type..."/>
+        <Button text="X" onAction="#handleClearSearch" style="-fx-background-radius: 15;">
+            <tooltip>
+                <Tooltip text="Clear search"/>
+            </tooltip>
+        </Button>
+    </HBox> -->
 
-    <TableView fx:id="foodTable">
+    <HBox spacing="10">
+        <TextField fx:id="nameField" promptText="Name"/>
+        <TextField fx:id="foodTypeField" promptText="Type"/>
+        <TextField fx:id="quantityLeftField" promptText="Quantity"/>
+        <DatePicker fx:id="expirationDatePicker" promptText="Expiration"/>
+        <CheckBox fx:id="openedCheckBox" text="Opened?"/>
+    </HBox>
+
+
+    <!-- Table of food items -->
+    <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn text="ID" fx:id = "idColumn"  />
-            <TableColumn text="Name" fx:id = "nameColumn" />
-            <TableColumn text="Food Type" fx:id="foodTypeColumn"/>
-            <TableColumn text="Quantity Left" fx:id = "quantityColumn" />
-            <TableColumn text="Expiration Date" fx:id = "expirationColumn"/>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
+            <TableColumn fx:id="foodTypeColumn" text="Food Type" prefWidth="100"/>
+            <TableColumn fx:id="expirationDateColumn" text="Expiration Date" prefWidth="120"/>
+            <TableColumn fx:id="quantityLeftColumn" text="Quantity Left" prefWidth="100"/>
+            <TableColumn fx:id="openedColumn" text="Opened" prefWidth="100"/>
         </columns>
     </TableView>
 
+    <!-- Action buttons -->
     <HBox spacing="10">
-        <Button text="Add Item" onAction="#handleAdd" />
-        <Button text="Remove Selected" onAction="#handleRemove" />
+        <Button text="Add Item" onAction="#handleAdd"/>
+        <Button text="Update Selected" onAction="#handleUpdate"/>
+        <Button text="Remove Selected" onAction="#handleRemove"/>
     </HBox>
 </VBox>
