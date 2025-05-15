@@ -45,7 +45,7 @@ class FoodController {
 
     //UPDATE food
     @PutMapping("/foods/{id}")
-    FoodItem replaceFood(@RequestBody FoodItem newFoodItem, @PathVariable Long id) {
+    FoodItem updateFood(@RequestBody FoodItem newFoodItem, @PathVariable Long id) {
         return foodRepository.findById(id)
                 .map(food -> {
                     storage.remove(food);

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Component
 public class FoodController implements Initializable {
@@ -66,18 +67,15 @@ public class FoodController implements Initializable {
         if (query == null || query.isEmpty()) {
             foodTable.setItems(fullFoodList);
         } else {
-            ObservableList<FoodItem> filtered = FXCollections.observableArrayList();
-            for (FoodItem item : fullFoodList) {
-                if (item.getName().toLowerCase().contains(query.toLowerCase())) {
-                    filtered.add(item);
-                }
-            }
+            ObservableList<FoodItem> filtered = fullFoodList.stream()
+                    .filter(item -> item.getName().toLowerCase().contains(query.toLowerCase()))
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
             foodTable.setItems(filtered);
         }
     }
 
     private void loadFoodData() {
-        String apiUrl = basePath + "/foods";
+        String apiUrl = basePath + "/api/food/foods";
 
         try {
             FoodItem[] foodItems = restTemplate.getForObject(apiUrl, FoodItem[].class);
@@ -139,7 +137,7 @@ public class FoodController implements Initializable {
         FoodItem newItem = new FoodItem( "New Food", "Snack", 1.0f, new Date());
         FoodItem savedItem = restTemplate.postForObject(basePath + "/foods", newItem, FoodItem.class);
         if (savedItem != null) {
-            fullFoodList.add(newItem);
+            fullFoodList.add(savedItem);
             foodTable.setItems(fullFoodList);
         }
     }
@@ -153,4 +151,17 @@ public class FoodController implements Initializable {
             foodTable.setItems(fullFoodList);
         }
     }
+
+    @FXML
+    private void handleUpdate() {
+        FoodItem selected = foodTable.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            selected.setName("Updated food");
+
+
+            restTemplate.put(basePath + "/foods/" + selected.getId(), selected);
+            foodTable.refresh();
+        }
+    }
+
 }
