@@ -55,6 +55,8 @@ public class FoodController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         apiUrl = basePath + "/api/food/foods";
 
+        foodTable.setEditable(true);
+
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         foodTypeColumn.setCellValueFactory(new PropertyValueFactory<>("foodType"));

@@ -17,7 +17,7 @@
 
     <TextField fx:id="searchField" promptText="Search by name..." />
 
-    <TableView fx:id="foodTable">
+    <TableView fx:id="foodTable" editable="true">
         <columns>
             <TableColumn text="ID" fx:id = "idColumn"  />
             <TableColumn text="Name" fx:id = "nameColumn" />
