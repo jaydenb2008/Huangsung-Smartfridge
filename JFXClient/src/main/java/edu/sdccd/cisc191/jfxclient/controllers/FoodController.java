@@ -46,12 +46,15 @@ public class FoodController implements Initializable {
     private final RestTemplate restTemplate;
     @Value("${spring.data.rest.base-path}")
     private String basePath;
+    private String apiUrl;
     public FoodController(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        apiUrl = basePath + "/api/food/foods";
+
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         foodTypeColumn.setCellValueFactory(new PropertyValueFactory<>("foodType"));
@@ -75,8 +78,6 @@ public class FoodController implements Initializable {
     }
 
     private void loadFoodData() {
-        String apiUrl = basePath + "/api/food/foods";
-
         try {
             FoodItem[] foodItems = restTemplate.getForObject(apiUrl, FoodItem[].class);
             if (foodItems != null) {
@@ -135,7 +136,7 @@ public class FoodController implements Initializable {
     @FXML
     private void handleAdd() {
         FoodItem newItem = new FoodItem( "New Food", "Snack", 1.0f, new Date());
-        FoodItem savedItem = restTemplate.postForObject(basePath + "/foods", newItem, FoodItem.class);
+        FoodItem savedItem = restTemplate.postForObject(apiUrl, newItem, FoodItem.class);
         if (savedItem != null) {
             fullFoodList.add(savedItem);
             foodTable.setItems(fullFoodList);
@@ -146,12 +147,13 @@ public class FoodController implements Initializable {
     private void handleRemove() {
         FoodItem selected = foodTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            restTemplate.delete(basePath + "/foods/" + selected.getId());
+            restTemplate.delete(apiUrl + "/" + selected.getId());
             fullFoodList.remove(selected);
             foodTable.setItems(fullFoodList);
         }
     }
 
+    //TODO allow handleUpdate to edit tableview
     @FXML
     private void handleUpdate() {
         FoodItem selected = foodTable.getSelectionModel().getSelectedItem();
@@ -159,7 +161,7 @@ public class FoodController implements Initializable {
             selected.setName("Updated food");
 
 
-            restTemplate.put(basePath + "/foods/" + selected.getId(), selected);
+            restTemplate.put(apiUrl + "/" + selected.getId(), selected);
             foodTable.refresh();
         }
     }
