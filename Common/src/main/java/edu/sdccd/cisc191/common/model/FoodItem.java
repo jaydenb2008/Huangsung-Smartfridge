@@ -2,9 +2,10 @@ package edu.sdccd.cisc191.common.model;
 
 import jakarta.persistence.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 
 @Entity
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
@@ -19,11 +20,11 @@ public class FoodItem implements Comparable<FoodItem> {
     private float quantityLeft;
 
     @Temporal(TemporalType.DATE)
-    private Date expirationDate;
+    private LocalDate expirationDate;
 
     public FoodItem() {}
 
-    public FoodItem(String name, String foodType, float quantityLeft, Date expirationDate) {
+    public FoodItem(String name, String foodType, float quantityLeft, LocalDate expirationDate) {
         this.name = name;
         this.foodType = foodType;
         this.quantityLeft = quantityLeft;
@@ -62,11 +63,11 @@ public class FoodItem implements Comparable<FoodItem> {
         this.quantityLeft = quantityLeft;
     }
 
-    public synchronized Date getExpirationDate() {
+    public synchronized LocalDate getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -77,26 +78,17 @@ public class FoodItem implements Comparable<FoodItem> {
      * @param userInputDate = the String expiration date the user inputs in the UI
      * @return the user's date converted from a String to a Date
      */
-    public static Date convertToDate(String userInputDate) {
-        Date date = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+    public static LocalDate convertToDate(String userInputDate) {
+        LocalDate date = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
         try {
-            date = formatter.parse(userInputDate);
-        } catch (ParseException e) {
+            date = LocalDate.parse(userInputDate, formatter);
+        } catch (DateTimeParseException e) {
             System.out.println("Error parsing date: " + e.getMessage());
         }
 
         return date;
-    }
-
-    /**
-     * Checks if the food item is expired based on the current date and expirationDate attribute
-     * @param expiration the expiration date of the food item
-     * @return true if the current date is after the expiration date, false otherwise
-     */
-    public synchronized boolean isExpired(Date expiration) {
-        return new Date().after(expiration);
     }
 
     @Override

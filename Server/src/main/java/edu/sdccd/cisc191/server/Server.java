@@ -41,7 +41,7 @@ public class Server implements CommandLineRunner {
         foodRepository.save(apple);
 
         Drink milk = new Drink();
-        milk.setName("cheese");
+        milk.setName("milk");
         milk.setFoodType("dairy");
         milk.setExpirationDate(FoodItem.convertToDate("09-26-2026"));
         milk.setQuantityLeft(0.75f);

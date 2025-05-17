@@ -3,7 +3,6 @@ package edu.sdccd.cisc191.common;
 import edu.sdccd.cisc191.common.fridge.Storage;
 import edu.sdccd.cisc191.common.model.Drink;
 import edu.sdccd.cisc191.common.model.FoodItem;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

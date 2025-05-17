@@ -1,25 +1,29 @@
 package edu.sdccd.cisc191.jfxclient.controllers;
 
+import edu.sdccd.cisc191.common.model.Drink;
 import edu.sdccd.cisc191.common.model.FoodItem;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.converter.BooleanStringConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.LocalDateStringConverter;
+
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -38,7 +42,9 @@ public class FoodController implements Initializable {
     @FXML
     private TableColumn<FoodItem, Float> quantityColumn;
     @FXML
-    private TableColumn<FoodItem, Date> expirationColumn;
+    private TableColumn<FoodItem, LocalDate> expirationColumn;
+    @FXML
+    private TableColumn<Drink, Boolean> openedColumn;
     @FXML
     private TextField searchField;
     private final ObservableList<FoodItem> fullFoodList = FXCollections.observableArrayList();
@@ -62,6 +68,43 @@ public class FoodController implements Initializable {
         foodTypeColumn.setCellValueFactory(new PropertyValueFactory<>("foodType"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantityLeft"));
         expirationColumn.setCellValueFactory(new PropertyValueFactory<>("expirationDate"));
+        openedColumn.setCellValueFactory(new PropertyValueFactory<>("open?"));
+
+        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        foodTypeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        expirationColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LocalDateStringConverter()));
+        openedColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BooleanStringConverter()));
+
+        nameColumn.setOnEditCommit(event -> {
+            FoodItem item = event.getRowValue();
+            item.setName(event.getNewValue());
+            restTemplate.put(apiUrl + "/" + item.getId(), item);
+        });
+
+        foodTypeColumn.setOnEditCommit(event -> {
+            FoodItem item = event.getRowValue();
+            item.setFoodType(event.getNewValue());
+            restTemplate.put(apiUrl + "/" + item.getId(), item);
+        });
+
+        quantityColumn.setOnEditCommit(event -> {
+            FoodItem item = event.getRowValue();
+            item.setQuantityLeft(event.getNewValue());
+            restTemplate.put(apiUrl + "/" + item.getId(), item);
+        });
+
+        expirationColumn.setOnEditCommit(event -> {
+            FoodItem item = event.getRowValue();
+            item.setExpirationDate(event.getNewValue());
+            restTemplate.put(apiUrl + "/" + item.getId(), item);
+        });
+
+        openedColumn.setOnEditCommit(event -> {
+            Drink item = event.getRowValue();
+            item.setOpened(event.getNewValue());
+            restTemplate.put(apiUrl + "/" + item.getId(), item);
+        });
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> filterList(newValue));
 
@@ -86,7 +129,6 @@ public class FoodController implements Initializable {
                 List<FoodItem> foodList = Arrays.asList(foodItems);
                 fullFoodList.setAll(foodList); // ensures filtering works
                 foodTable.setItems(fullFoodList);
-                checkExpirations(foodList);
             } else {
                 // Handle the case where the API request fails or returns null
                 System.err.println("Failed to load food data from the API.");
@@ -96,48 +138,10 @@ public class FoodController implements Initializable {
         }
     }
 
-    private void checkExpirations(List<FoodItem> foodList) {
-        StringBuilder upcoming = new StringBuilder();
-        StringBuilder expired = new StringBuilder();
-
-        for (FoodItem item : foodList) {
-            Date now = new Date();
-            long diff = item.getExpirationDate().getTime() - now.getTime();
-            long days = diff / (1000 * 60 * 60 * 24);
-
-            if (days < 0) {
-                expired.append(item.getName()).append(" has expired!\n");
-            } else if (days <= 3) {
-                upcoming.append(item.getName()).append(" will expire in ").append(days).append(" day(s).\n");
-            }
-        }
-
-        StringBuilder message = new StringBuilder();
-        if (!expired.isEmpty()) {
-            message.append("❗ Expired Items:\n").append(expired);
-        }
-        if (!upcoming.isEmpty()) {
-            message.append("\n⏳ Upcoming Expirations:\n").append(upcoming);
-        }
-
-        if (!message.isEmpty()) {
-            showExpirationAlert(message.toString());
-        }
-    }
-
-    private void showExpirationAlert(String message) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Expiration Alert");
-            alert.setHeaderText("Fridge Notification");
-            alert.setContentText(message);
-            alert.showAndWait();
-        });
-    }
 
     @FXML
     private void handleAdd() {
-        FoodItem newItem = new FoodItem( "New Food", "Snack", 1.0f, new Date());
+        FoodItem newItem = new FoodItem( "New Food", "Snack", 1.0f, FoodItem.convertToDate("06-01-2026"));
         FoodItem savedItem = restTemplate.postForObject(apiUrl, newItem, FoodItem.class);
         if (savedItem != null) {
             fullFoodList.add(savedItem);
@@ -155,14 +159,10 @@ public class FoodController implements Initializable {
         }
     }
 
-    //TODO allow handleUpdate to edit tableview
     @FXML
     private void handleUpdate() {
         FoodItem selected = foodTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            selected.setName("Updated food");
-
-
             restTemplate.put(apiUrl + "/" + selected.getId(), selected);
             foodTable.refresh();
         }

@@ -24,6 +24,7 @@
             <TableColumn text="Food Type" fx:id="foodTypeColumn"/>
             <TableColumn text="Quantity Left" fx:id = "quantityColumn" />
             <TableColumn text="Expiration Date" fx:id = "expirationColumn"/>
+            <TableColumn text="Opened" fx:id="openedColumn"/>
         </columns>
     </TableView>
 
