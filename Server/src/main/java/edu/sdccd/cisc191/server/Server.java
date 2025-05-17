@@ -1,7 +1,6 @@
 package edu.sdccd.cisc191.server;
 
 import edu.sdccd.cisc191.common.fridge.Storage;
-import edu.sdccd.cisc191.common.model.Drink;
 import edu.sdccd.cisc191.common.model.FoodItem;
 import edu.sdccd.cisc191.server.repositories.FoodRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -37,15 +36,9 @@ public class Server implements CommandLineRunner {
         apple.setFoodType("fruit");
         apple.setExpirationDate(FoodItem.convertToDate("06-04-2026"));
         apple.setQuantityLeft(5.0f);
+        apple.setOpened(false);
         storage.add(apple);
         foodRepository.save(apple);
 
-        Drink milk = new Drink();
-        milk.setName("milk");
-        milk.setFoodType("dairy");
-        milk.setExpirationDate(FoodItem.convertToDate("09-26-2026"));
-        milk.setQuantityLeft(0.75f);
-        storage.add(milk);
-        foodRepository.save(milk);
     }
 }

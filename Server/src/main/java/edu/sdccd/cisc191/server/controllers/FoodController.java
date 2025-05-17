@@ -3,7 +3,6 @@ package edu.sdccd.cisc191.server.controllers;
 import java.util.List;
 
 import edu.sdccd.cisc191.common.fridge.Storage;
-import edu.sdccd.cisc191.common.model.Drink;
 import edu.sdccd.cisc191.common.model.FoodItem;
 import edu.sdccd.cisc191.server.exceptions.FoodNotFoundException;
 import edu.sdccd.cisc191.server.repositories.FoodRepository;
@@ -53,10 +52,7 @@ class FoodController {
                     food.setFoodType(newFoodItem.getFoodType());
                     food.setQuantityLeft(newFoodItem.getQuantityLeft());
                     food.setExpirationDate(newFoodItem.getExpirationDate());
-
-                    if (food instanceof Drink && newFoodItem instanceof Drink) {
-                        ((Drink) food).setOpened(((Drink) newFoodItem).isOpened());
-                    }
+                    food.setOpened(newFoodItem.getOpened());
 
                     FoodItem updated = foodRepository.save(food);
                     storage.add(updated);

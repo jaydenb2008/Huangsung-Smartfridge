@@ -1,6 +1,5 @@
 package edu.sdccd.cisc191.jfxclient.controllers;
 
-import edu.sdccd.cisc191.common.model.Drink;
 import edu.sdccd.cisc191.common.model.FoodItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,7 +43,7 @@ public class FoodController implements Initializable {
     @FXML
     private TableColumn<FoodItem, LocalDate> expirationColumn;
     @FXML
-    private TableColumn<Drink, Boolean> openedColumn;
+    private TableColumn<FoodItem, Boolean> openedColumn;
     @FXML
     private TextField searchField;
     private final ObservableList<FoodItem> fullFoodList = FXCollections.observableArrayList();
@@ -68,7 +67,7 @@ public class FoodController implements Initializable {
         foodTypeColumn.setCellValueFactory(new PropertyValueFactory<>("foodType"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantityLeft"));
         expirationColumn.setCellValueFactory(new PropertyValueFactory<>("expirationDate"));
-        openedColumn.setCellValueFactory(new PropertyValueFactory<>("open?"));
+        openedColumn.setCellValueFactory(new PropertyValueFactory<>("opened"));
 
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         foodTypeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -101,16 +100,18 @@ public class FoodController implements Initializable {
         });
 
         openedColumn.setOnEditCommit(event -> {
-            Drink item = event.getRowValue();
+            FoodItem item = event.getRowValue();
             item.setOpened(event.getNewValue());
-            restTemplate.put(apiUrl + "/" + item.getId(), item);
+            restTemplate.put(apiUrl + "/"+ item.getId(), item);
         });
+
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> filterList(newValue));
 
         loadFoodData();
     }
 
+    //Search for items using Stream API
     private void filterList(String query) {
         if (query == null || query.isEmpty()) {
             foodTable.setItems(fullFoodList);
@@ -141,7 +142,7 @@ public class FoodController implements Initializable {
 
     @FXML
     private void handleAdd() {
-        FoodItem newItem = new FoodItem( "New Food", "Snack", 1.0f, FoodItem.convertToDate("06-01-2026"));
+        FoodItem newItem = new FoodItem( "New Food", "FoodItem", 1.0f, FoodItem.convertToDate("06-01-2026"), false);
         FoodItem savedItem = restTemplate.postForObject(apiUrl, newItem, FoodItem.class);
         if (savedItem != null) {
             fullFoodList.add(savedItem);

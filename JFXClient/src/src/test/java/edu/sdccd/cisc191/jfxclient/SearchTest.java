@@ -15,8 +15,8 @@ public class SearchTest {
     @BeforeEach
     void setup() {
         fridge = new Storage<>();
-        fridge.add(new FoodItem("bread", "grains", 1.0f, FoodItem.convertToDate("06-01-2026")));
-        fridge.add(new FoodItem("broccoli", "vegetable", 3.0f, FoodItem.convertToDate("06-01-2026")));
+        fridge.add(new FoodItem("bread", "grains", 1.0f, FoodItem.convertToDate("06-01-2026"), false));
+        fridge.add(new FoodItem("broccoli", "vegetable", 3.0f, FoodItem.convertToDate("06-01-2026"), true));
     }
 
     @Test

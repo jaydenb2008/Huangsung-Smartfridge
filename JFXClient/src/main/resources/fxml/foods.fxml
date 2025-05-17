@@ -29,7 +29,7 @@
     </TableView>
 
     <HBox spacing="10">
-        <Button text="Add Item" onAction="#handleAdd" />
+        <Button text="Add Food" onAction="#handleAdd" />
         <Button text="Remove Selected" onAction="#handleRemove" />
         <Button text="Updated Selected" onAction="#handleUpdate" />
     </HBox>

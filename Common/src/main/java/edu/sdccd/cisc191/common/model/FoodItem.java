@@ -8,7 +8,6 @@ import java.time.format.DateTimeParseException;
 
 
 @Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "item_type", discriminatorType = DiscriminatorType.STRING)
 public class FoodItem implements Comparable<FoodItem> {
     @Id
@@ -22,13 +21,17 @@ public class FoodItem implements Comparable<FoodItem> {
     @Temporal(TemporalType.DATE)
     private LocalDate expirationDate;
 
+    //add opened property because drink no longer exists
+    private boolean opened;
+
     public FoodItem() {}
 
-    public FoodItem(String name, String foodType, float quantityLeft, LocalDate expirationDate) {
+    public FoodItem(String name, String foodType, float quantityLeft, LocalDate expirationDate, boolean opened) {
         this.name = name;
         this.foodType = foodType;
         this.quantityLeft = quantityLeft;
         this.expirationDate = expirationDate;
+        this.opened = opened;
     }
 
     public long getId() {
@@ -69,6 +72,14 @@ public class FoodItem implements Comparable<FoodItem> {
 
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public boolean getOpened() {
+        return opened;
+    }
+
+    public void setOpened(boolean opened) {
+        this.opened = opened;
     }
 
 
