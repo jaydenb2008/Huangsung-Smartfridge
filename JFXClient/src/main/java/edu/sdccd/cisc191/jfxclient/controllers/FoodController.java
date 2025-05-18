@@ -142,7 +142,7 @@ public class FoodController implements Initializable {
 
     @FXML
     private void handleAdd() {
-        FoodItem newItem = new FoodItem( "New Food", "FoodItem", 1.0f, FoodItem.convertToDate("06-01-2026"), false);
+        FoodItem newItem = new FoodItem( "New Food", "FoodItem", 1.0f, LocalDate.now(), false);
         FoodItem savedItem = restTemplate.postForObject(apiUrl, newItem, FoodItem.class);
         if (savedItem != null) {
             fullFoodList.add(savedItem);

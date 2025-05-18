@@ -1,11 +1,12 @@
 package edu.sdccd.cisc191.common.fridge;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 
-@Entity
+@Component
 public class Storage<T extends Comparable<T>> implements Set<T> {
 
     @Id

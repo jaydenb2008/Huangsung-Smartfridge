@@ -5,6 +5,8 @@ import edu.sdccd.cisc191.common.model.FoodItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StorageTest {
@@ -16,8 +18,8 @@ public class StorageTest {
     void setUpStorage() {
         testFridge = new Storage();
 
-        tomatoes = new FoodItem("Tomatoes", "Vegetable", 3.0f, FoodItem.convertToDate("03-23-2025"), true);
-        eggs = new FoodItem("Eggs", "Poultry", 12.0f, FoodItem.convertToDate("03-16-2025"), false);
+        tomatoes = new FoodItem("Tomatoes", "Vegetable", 3.0f, LocalDate.now(), true);
+        eggs = new FoodItem("Eggs", "Poultry", 12.0f, LocalDate.now(), false);
 
     }
 

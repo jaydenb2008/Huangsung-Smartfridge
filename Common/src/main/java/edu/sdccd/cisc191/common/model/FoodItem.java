@@ -1,10 +1,7 @@
 package edu.sdccd.cisc191.common.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 
 @Entity
@@ -82,25 +79,6 @@ public class FoodItem implements Comparable<FoodItem> {
         this.opened = opened;
     }
 
-
-
-    /**
-     * Converts the user's valid String expiration date input into a Date for constructing the FoodItem object
-     * @param userInputDate = the String expiration date the user inputs in the UI
-     * @return the user's date converted from a String to a Date
-     */
-    public static LocalDate convertToDate(String userInputDate) {
-        LocalDate date = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-
-        try {
-            date = LocalDate.parse(userInputDate, formatter);
-        } catch (DateTimeParseException e) {
-            System.out.println("Error parsing date: " + e.getMessage());
-        }
-
-        return date;
-    }
 
     @Override
     public boolean equals(Object obj) {

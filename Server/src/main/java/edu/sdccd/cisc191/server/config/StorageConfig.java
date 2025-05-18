@@ -10,6 +10,6 @@ public class StorageConfig {
 
     @Bean
     public Storage<FoodItem> storage() {
-        return new Storage<FoodItem>();
+        return new Storage<>();
     }
 }

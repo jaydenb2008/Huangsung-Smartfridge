@@ -8,6 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+import java.time.LocalDate;
+
 /**
  * This class starts up the Spring Boot Application which
  * adds food items to the repository
@@ -34,7 +36,7 @@ public class Server implements CommandLineRunner {
         FoodItem apple = new FoodItem();
         apple.setName("apple");
         apple.setFoodType("fruit");
-        apple.setExpirationDate(FoodItem.convertToDate("06-04-2026"));
+        apple.setExpirationDate(LocalDate.of(2025, 7, 24));
         apple.setQuantityLeft(5.0f);
         apple.setOpened(false);
         storage.add(apple);
