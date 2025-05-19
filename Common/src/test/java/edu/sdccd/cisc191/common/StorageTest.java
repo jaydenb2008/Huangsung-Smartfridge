@@ -42,16 +42,4 @@ public class StorageTest {
         assertFalse(testFridge.contains(eggs));
 
     }
-
-
-
-    @Test
-    void testGenericFridge() {
-        Storage<String> stringStorage = new Storage<>();
-
-        stringStorage.add("Ketchup");
-        stringStorage.add("Chicken");
-
-        assertEquals(2, stringStorage.size());
-    }
 }

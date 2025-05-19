@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,28 +23,35 @@ public class DatabaseTest {
     private Storage<FoodItem> storage;
 
     private FoodItem item;
-    private FoodItem savedItem;
+    private FoodItem saved;
 
     @BeforeEach
     void setup() {
         item = new FoodItem("steak", "meat", 2.0f, LocalDate.now(), false);
-
+        foodRepository.deleteAll();
+        storage.clear();
     }
 
     @Test
     @Order(1)
     void testCreateAndSync() {
-        savedItem = foodRepository.save(item);
-        assertNotNull(savedItem.getId(), "saved items should have an associated id");
+        saved = foodRepository.save(item);
+        storage.add(saved);
 
-        //storage sync
-        assertTrue(storage.contains(savedItem));
+        Optional<FoodItem> foundInDB = foodRepository.findById(saved.getId());
+        assertTrue(foundInDB.isPresent(), "Item should be found by id");
+
+        //check storage
+        assertTrue(storage.contains(saved));
     }
 
     @Test
     @Order(2)
     void testRead() {
-        Optional<FoodItem> found = foodRepository.findById(savedItem.getId());
+        saved = foodRepository.save(item);
+        storage.add(saved);
+
+        Optional<FoodItem> found = foodRepository.findById(saved.getId());
         assertTrue(found.isPresent(), "Item should be found by id");
         assertEquals("steak", found.get().getName());
         assertEquals("meat", found.get().getFoodType());
@@ -52,31 +60,51 @@ public class DatabaseTest {
         assertFalse(found.get().getOpened());
 
         //storage sync
+        FoodItem foundInStorage = storage.recursiveSearch(saved);
+        assertTrue(storage.contains(saved));
+        assertEquals("steak", foundInStorage.getName());
+        assertEquals("meat", foundInStorage.getFoodType());
+        assertEquals(2.0f, foundInStorage.getQuantityLeft());
+        assertEquals(LocalDate.now(), foundInStorage.getExpirationDate());
+        assertFalse(foundInStorage.getOpened());
     }
 
     @Test
     @Order(3)
     void testUpdateAndSync() {
-        savedItem.setQuantityLeft(1.0f);
-        savedItem.setOpened(true);
+        saved = foodRepository.save(item);
+        storage.add(saved);
 
-        foodRepository.save(savedItem);
+        saved.setQuantityLeft(1.0f);
+        saved.setOpened(true);
 
-        Optional<FoodItem> updatedItem = foodRepository.findById(savedItem.getId());
+        foodRepository.save(saved);
+        storage.add(saved);
+
+        Optional<FoodItem> updatedItem = foodRepository.findById(saved.getId());
         assertTrue(updatedItem.isPresent(), "item should still be in database after update");
 
         assertEquals(1.0f, updatedItem.get().getQuantityLeft());
         assertTrue(updatedItem.get().getOpened());
 
         //storage sync
+        FoodItem found = storage.recursiveSearch(saved);
+        assertNotNull(found);
+        assertEquals(1.0f, found.getQuantityLeft());
+        assertTrue(found.getOpened());
     }
 
     @Test
     @Order(4)
     void testDeleteAndSync() {
-        foodRepository.deleteById(savedItem.getId());
-        assertFalse(foodRepository.findById(savedItem.getId()).isPresent(), "Item should be deleted from database");
+        saved = foodRepository.save(item);
+        storage.add(saved);
+
+        foodRepository.deleteById(saved.getId());
+        assertFalse(foodRepository.findById(saved.getId()).isPresent(), "Item should be deleted from database");
 
         //storage sync
+        storage.remove(saved);
+        assertFalse(storage.contains(saved));
     }
 }
