@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 /**
  * This class starts up the Spring Boot Application which
- * adds food items to the repository
+ *CRUDs FoodItems
  */
 @SpringBootApplication
 @EntityScan("edu.sdccd.cisc191.common.model")

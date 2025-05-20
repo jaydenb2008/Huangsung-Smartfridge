@@ -13,6 +13,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
+/**
+ * This class defines the javafx application and loads to FXML to be used
+ */
+
 @SpringBootApplication
 public class JFXClient extends Application {
     private ConfigurableApplicationContext applicationContext;

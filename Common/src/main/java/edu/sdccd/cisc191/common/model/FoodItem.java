@@ -3,6 +3,15 @@ package edu.sdccd.cisc191.common.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+/**
+ * FoodItem is the model class of the SpringBoot Application.
+ * It defines all the attributes of a food and implements methods in compliance with the comparable interface
+ * long id: the id associated with each food
+ * String name: the name of the food
+ * String foodType: a food's categorical type
+ * float quantityLeft: the amount of food that is left
+ * boolean opened: has the food been open or eaten yet?
+ */
 
 @Entity
 @DiscriminatorColumn(name = "item_type", discriminatorType = DiscriminatorType.STRING)
@@ -79,7 +88,7 @@ public class FoodItem implements Comparable<FoodItem> {
         this.opened = opened;
     }
 
-
+    //methods that must have an override when implementing the Comparable interface
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

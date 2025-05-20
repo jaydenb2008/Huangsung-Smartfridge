@@ -4,6 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * This GlobalExceptionHandler handles the FoodNotFoundException exception
+ * for the HTTP status
+ */
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

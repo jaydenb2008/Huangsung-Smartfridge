@@ -6,6 +6,10 @@ import edu.sdccd.cisc191.server.repositories.FoodRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class initializes a food item storage and a jpa food repository
+ */
+
 @Component
 public class StorageInitializer {
     private final FoodRepository foodRepository;

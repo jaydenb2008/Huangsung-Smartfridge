@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/**
+ * This class allows the api to interface with the JavaFX UI, allowing for FoodItems
+ * to be CRUD on a graphical level
+ */
+
 @Component
 public class FoodController implements Initializable {
 
@@ -56,6 +61,7 @@ public class FoodController implements Initializable {
         this.restTemplate = restTemplateBuilder.build();
     }
 
+    //set up the table to grab the data from the database via the api
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         apiUrl = basePath + "/api/food/foods";
@@ -123,6 +129,7 @@ public class FoodController implements Initializable {
         }
     }
 
+    //load food from the database to the table
     private void loadFoodData() {
         try {
             FoodItem[] foodItems = restTemplate.getForObject(apiUrl, FoodItem[].class);
@@ -139,7 +146,7 @@ public class FoodController implements Initializable {
         }
     }
 
-
+    //adds fooditems to the table
     @FXML
     private void handleAdd() {
         FoodItem newItem = new FoodItem( "New Food", "FoodItem", 1.0f, LocalDate.now(), false);
@@ -150,6 +157,7 @@ public class FoodController implements Initializable {
         }
     }
 
+    //removes fooditems from the table
     @FXML
     private void handleRemove() {
         FoodItem selected = foodTable.getSelectionModel().getSelectedItem();
@@ -160,6 +168,7 @@ public class FoodController implements Initializable {
         }
     }
 
+    //updates existing items in the table
     @FXML
     private void handleUpdate() {
         FoodItem selected = foodTable.getSelectionModel().getSelectedItem();

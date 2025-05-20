@@ -8,6 +8,11 @@ import edu.sdccd.cisc191.server.exceptions.FoodNotFoundException;
 import edu.sdccd.cisc191.server.repositories.FoodRepository;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * This class allows the API to interface with storage and the database and perform
+ * CRUD operations.
+ */
+
 @RestController
 @RequestMapping("/api/food")
 class FoodController {
