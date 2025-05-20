@@ -5,6 +5,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+/**
+ * This class defines the behaviors of the storage for fooditems.
+ * Storage is a binary search tree using recursive search to add and remove foods from the data structure
+ * Implements the set interface with complying overriding methods
+ * SpringBoot Component as it is syncing with the database
+ * @param <T> the object type in which the storage will store (FoodItem)
+ */
 
 @Component
 public class Storage<T extends Comparable<T>> implements Set<T> {
@@ -17,6 +24,10 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
     private TreeNode<T> root;
 
 
+    /**
+     * Defines a node of the binary search tree which will be traversed. Each node represents a FoodItem
+     * @param <T> the object type in which the storage will store (FoodItem)
+     */
     @Embeddable
     public static class TreeNode<T extends Comparable<T>> {
 
@@ -40,11 +51,17 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         this.root = null;
     }
 
+    /**
+     * recursively calls sizeRecursive() method to count the number of nodes/items in storage
+     * @return the size of storage
+     */
     @Override
     public int size() {
         return sizeRecursive(root);
     }
 
+    //method called recursively to count nodes
+    //empty nodes = 0, nonempty nodes = 1
     private int sizeRecursive(TreeNode<T> node) {
         if (node == null) {
             return 0;
@@ -53,12 +70,18 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         return 1 + sizeRecursive(node.left) + sizeRecursive(node.right);
     }
 
+    /**
+     * adds a fooditem recursively to the storage binary search tree
+     * @param item element whose presence in this collection is to be ensured
+     * @return true when the operation is completed
+     */
     @Override
     public boolean add(T item) {
         root = addFood(root, item);
         return true;
     }
 
+    //recursively adds a new node/food to the tree
     private TreeNode<T> addFood(TreeNode<T> node, T item) {
         if (node == null) {
             return new TreeNode<>(item);
@@ -76,10 +99,16 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         return node;
     }
 
+    /**
+     * Method to recursively search for a fooditem
+     * @param item the fooditem that needs to be searched
+     * @return the item searched for
+     */
     public T recursiveSearch(T item) {
         return recursiveSearch(root, item);
     }
 
+    //recurively serach for food in binary search tree
     private T recursiveSearch(TreeNode<T> node, T item) {
         if (node == null) {
             return null;
@@ -95,11 +124,20 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         }
     }
 
+    /**
+     * method to determine if storage is empty or not
+     * @return true or false depending on if the root is null or not
+     */
     @Override
     public boolean isEmpty() {
         return root == null;
     }
 
+    /**
+     * Method to determine if a food is in storage
+     * @param o element whose presence in this set is to be tested
+     * @return if a food is in the storage
+     */
     @Override
     public boolean contains(Object o) {
         if (!(o instanceof Comparable)) return false;
@@ -107,6 +145,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         return recursiveSearch(root, item) != null;
     }
 
+    //methods to override as part of the set interface
     @Override
     public Iterator<T> iterator() {
         List<T> items = new ArrayList<>();
@@ -133,6 +172,11 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         return null;
     }
 
+    /**
+     * method to remove a node/food from storage
+     * @param o object to be removed from this set, if present
+     * @return true or false if the item is present and has been deleted
+     */
     @Override
     public boolean remove(Object o) {
         if (!(o instanceof Comparable)) return false;
@@ -144,6 +188,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         return false;
     }
 
+    //recursively remove a fooditem
     private TreeNode<T> removeRecursive(TreeNode<T> node, T item) {
         if (node == null) return null;
 
@@ -173,6 +218,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
     }
 
 
+    //more methods to override as part of the set interface
     @Override
     public boolean containsAll(Collection<?> c) {
         return false;
@@ -193,6 +239,9 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         return false;
     }
 
+    /**
+     * clears the storage
+     */
     @Override
     public void clear() {
         root = null;

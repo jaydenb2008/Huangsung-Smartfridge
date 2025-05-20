@@ -102,6 +102,11 @@ public class FoodItem implements Comparable<FoodItem> {
         return name.toLowerCase().hashCode();
     }
 
+    /**
+     * Allows foodItems to be compared and sorted by alphabetical order
+     * @param other the object to be compared.
+     * @return 0 or 1 depending on if the named in question comes before or after the other
+     */
     @Override
     public int compareTo(FoodItem other) {
         return this.name.compareToIgnoreCase(other.name);
