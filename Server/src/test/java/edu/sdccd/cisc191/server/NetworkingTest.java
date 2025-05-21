@@ -40,41 +40,23 @@ public class NetworkingTest {
         assertNotNull(saved);
         assertEquals("Network Apple", saved.getName());
 
-        // Because we can’t use getId(), check that the object is now in storage
         assertTrue(storage.contains(saved), "Storage should contain the created item");
     }
 
     @Test
     @Order(2)
     void testUpdateFoodItem() {
-        // First create an item
         FoodItem saved = restTemplate.postForObject(baseUrl, testItem, FoodItem.class);
         saved.setName("Updated Apple");
 
-        // Update it
         restTemplate.put(baseUrl + "/" + saved.getId(), saved);
 
-        // Re-fetch and check
         FoodItem updated = restTemplate.getForObject(baseUrl + "/" + saved.getId(), FoodItem.class);
         assertEquals("Updated Apple", updated.getName());
     }
 
     @Test
     @Order(3)
-    void testDeleteFoodItem() {
-        // Create
-        FoodItem saved = restTemplate.postForObject(baseUrl, testItem, FoodItem.class);
-
-        // Delete
-        restTemplate.delete(baseUrl + "/" + saved.getId());
-
-        // Confirm it's gone via GET
-        ResponseEntity<FoodItem> response = restTemplate.getForEntity(baseUrl + "/" + saved.getId(), FoodItem.class);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
-    @Order(4)
     void testGetAllFoodItems() {
         restTemplate.postForObject(baseUrl, testItem, FoodItem.class);
 

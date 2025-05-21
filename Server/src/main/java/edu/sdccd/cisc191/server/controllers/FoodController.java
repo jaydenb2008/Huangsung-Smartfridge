@@ -72,9 +72,9 @@ class FoodController {
 
     @DeleteMapping("/foods/{id}")
     void deleteFood(@PathVariable Long id) {
-        foodRepository.findById(id).ifPresent(food -> {
-            storage.remove(food);
-            foodRepository.deleteById(id);
-        });
+        FoodItem item = foodRepository.findById(id)
+                .orElseThrow(() -> new FoodNotFoundException(id));
+        storage.remove(item);
+        foodRepository.deleteById(id);
     }
 }
