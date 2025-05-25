@@ -40,6 +40,9 @@ public class FoodItem implements Comparable<FoodItem> {
         this.opened = opened;
     }
 
+    public FoodItem(String milk, String date, int i) {
+    }
+
     public long getId() {
         return id;
     }

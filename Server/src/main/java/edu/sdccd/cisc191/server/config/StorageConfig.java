@@ -14,6 +14,15 @@ public class StorageConfig {
 
     @Bean
     public Storage<FoodItem> storage() {
+
+        // TODO: Replace in-memory storage with database-backed repository for persistent storage[2].
+
+        Storage<FoodItem> storage = new Storage<>();
+
+        // Example: Add a sample FoodItem to demonstrate initialization.
+        FoodItem sampleItem = new FoodItem("Milk", "2025-06-01", 2);
+        storage.add(sampleItem);
+
         return new Storage<>();
     }
 }
