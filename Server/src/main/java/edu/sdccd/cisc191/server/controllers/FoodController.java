@@ -25,6 +25,9 @@ class FoodController {
         this.storage = storage;
     }
 
+    // TODO (7.1 Networking): Add proper HTTP status codes and exception handling for all endpoints.
+    // TODO (7.1 Networking): Implement pagination and filtering for GET /foods endpoint.
+    // TODO (7.1 Networking): Document API endpoints using OpenAPI/Swagger annotations.
 
     // READ ALL
     @GetMapping("/foods")
