@@ -14,6 +14,7 @@ import java.util.*;
  */
 
 @Component
+
 public class Storage<T extends Comparable<T>> implements Set<T> {
 
     @Id
@@ -28,11 +29,13 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
      * Defines a node of the binary search tree which will be traversed. Each node represents a FoodItem
      * @param <T> the object type in which the storage will store (FoodItem)
      */
+    // TODO: consider not persisting the entire tree structure, instead relying on FoodItems to be serialized
     @Embeddable
     public static class TreeNode<T extends Comparable<T>> {
 
         private T item;
 
+        // TODO: use the color field to implement a red-black tree, or delete it
         private int color;
         private TreeNode<T> left;
         private TreeNode<T> right;
@@ -75,6 +78,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
      * @param item element whose presence in this collection is to be ensured
      * @return true when the operation is completed
      */
+    // TODO: add() should return false when an equal item within the Set is already present
     @Override
     public boolean add(T item) {
         root = addFood(root, item);
@@ -161,7 +165,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         }
     }
 
-
+    // TODO: complete toArray() to traverse the tree and return an array of the items
     @Override
     public Object[] toArray() {
         return new Object[0];

@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/food")
+// TODO: add "foods" to the RequestMapping so you don't have to repeat it in each method
 class FoodController {
 
+    // TODO: use a @ResponseStatus or return a ResponseEntity to make HTTP returns explicit
+    // TODO: consider using method verbs that follow more with CRUD-operations, like create(), delete(), etc.
     private final FoodRepository foodRepository;
     private final Storage<FoodItem> storage;
 
@@ -33,6 +36,7 @@ class FoodController {
     }
 
     //CREATE food
+    // TODO: consider adding an option that lets you sort the list by expiration date, name, etc.
     @PostMapping("/foods")
     FoodItem newFood(@RequestBody FoodItem newFoodItem) {
         FoodItem saved = foodRepository.save(newFoodItem);
@@ -47,6 +51,7 @@ class FoodController {
                 .orElseThrow(() -> new FoodNotFoundException(id));
     }
 
+    // TODO: use lambda method references
     //UPDATE food
     @PutMapping("/foods/{id}")
     FoodItem updateFood(@RequestBody FoodItem newFoodItem, @PathVariable Long id) {
