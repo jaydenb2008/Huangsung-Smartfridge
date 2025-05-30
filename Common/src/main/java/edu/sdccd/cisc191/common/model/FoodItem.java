@@ -15,16 +15,20 @@ import java.time.LocalDate;
 
 @Entity
 @DiscriminatorColumn(name = "item_type", discriminatorType = DiscriminatorType.STRING)
+// TODO: add the @Getter and @Setter annotations to the class to add getters and setters automatically for fields
 public class FoodItem implements Comparable<FoodItem> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    // TODO: consider using Long vs long so JPA can set it as null if needed
 
+    // TODO: consider adding validation annotations, like @NotBlank for name or @FutureOrPresent for expirationDate
     private String name;
     private String foodType;
     private float quantityLeft;
 
     @Temporal(TemporalType.DATE)
+    // TODO: you don't need temporal on LocalDate
     private LocalDate expirationDate;
 
     //add opened property because drink no longer exists
@@ -40,10 +44,13 @@ public class FoodItem implements Comparable<FoodItem> {
         this.opened = opened;
     }
 
+    // TODO: use a library like Lombok in order to automatically generate Getters and Setters
+
     public long getId() {
         return id;
     }
 
+    // TODO: remove the setter for id, never used and is already set by database
     public void setId(long id) {
         this.id = id;
     }

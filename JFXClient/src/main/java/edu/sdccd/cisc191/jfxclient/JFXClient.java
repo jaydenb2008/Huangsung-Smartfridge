@@ -28,6 +28,7 @@ public class JFXClient extends Application {
     public void start(Stage stage) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/foods.fxml"));
         fxmlLoader.setControllerFactory(applicationContext::getBean);
+        // TODO: remove the null initializer
         Parent root = null;
         try {
             root = fxmlLoader.load();
