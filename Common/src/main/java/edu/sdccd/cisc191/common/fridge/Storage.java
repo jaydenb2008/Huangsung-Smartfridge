@@ -12,7 +12,7 @@ import java.util.*;
  * SpringBoot Component as it is syncing with the database
  * @param <T> the object type in which the storage will store (FoodItem)
  */
-
+//test
 @Component
 public class Storage<T extends Comparable<T>> implements Set<T> {
 
