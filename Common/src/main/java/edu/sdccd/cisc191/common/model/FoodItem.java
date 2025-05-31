@@ -26,7 +26,7 @@ public class FoodItem implements Comparable<FoodItem> {
 
     @Temporal(TemporalType.DATE)
     private LocalDate expirationDate;
-
+    // TODO: @Temporal is only used with java.util.Date. Since this uses LocalDate, it can be removed.
     //add opened property because drink no longer exists
     private boolean opened;
 
@@ -96,7 +96,7 @@ public class FoodItem implements Comparable<FoodItem> {
         FoodItem that = (FoodItem) obj;
         return name.equalsIgnoreCase(that.name);  // or another attribute
     }
-
+    //Should equals() also check the ID or other fields? Just using name might not be unique enough.
     @Override
     public int hashCode() {
         return name.toLowerCase().hashCode();

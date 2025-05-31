@@ -12,7 +12,7 @@ import java.util.*;
  * SpringBoot Component as it is syncing with the database
  * @param <T> the object type in which the storage will store (FoodItem)
  */
-
+//test
 @Component
 public class Storage<T extends Comparable<T>> implements Set<T> {
 
@@ -22,7 +22,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
 
     @Transient
     private TreeNode<T> root;
-
+// The 'color' field isn't used anywhere. If not needed, consider removing it to simplify the class.
 
     /**
      * Defines a node of the binary search tree which will be traversed. Each node represents a FoodItem
@@ -98,7 +98,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
 
         return node;
     }
-
+//  This unchecked cast could cause runtime issues. Consider a safer cast or suppressing the warning with @SuppressWarnings("unchecked").
     /**
      * Method to recursively search for a fooditem
      * @param item the fooditem that needs to be searched
@@ -181,6 +181,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
     public boolean remove(Object o) {
         if (!(o instanceof Comparable)) return false;
         T item = (T) o;
+        //this uses same unchecked cast as conains. suggest to improve it or safely suppress it.
         if (contains(item)) {
             root = removeRecursive(root, item);
             return true;
@@ -204,6 +205,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
 
             // Two children: find in-order successor (smallest in right subtree)
             TreeNode<T> minNode = findMin(node.right);
+            // GOOD: Correctly finds in-order successor for deleting nodes with two children—nice job.
             node.item = minNode.item;
             node.right = removeRecursive(node.right, minNode.item);
         }
@@ -212,6 +214,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
 
     private TreeNode<T> findMin(TreeNode<T> node) {
         while (node.left != null) {
+            // NOTE: Assumes input node is not null—consider adding a null check or documenting it as a precondition.
             node = node.left;
         }
         return node;
@@ -220,10 +223,11 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
 
     //more methods to override as part of the set interface
     @Override
+
     public boolean containsAll(Collection<?> c) {
         return false;
     }
-
+// this set meathod isent implamened. consider throwing UnsupportedOperationException or fully implementing it.
     @Override
     public boolean addAll(Collection<? extends T> c) {
         return false;
@@ -245,6 +249,8 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
     @Override
     public void clear() {
         root = null;
+        // SUGGESTION: Consider logging when storage is cleared, especially if used in debugging or init scripts.
+
     }
 
 }
