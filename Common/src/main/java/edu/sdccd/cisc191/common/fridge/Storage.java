@@ -32,7 +32,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
     public static class TreeNode<T extends Comparable<T>> {
 
         private T item;
-
+        // Consider deleting unused property, or fully implementing an AVL tree
         private int color;
         private TreeNode<T> left;
         private TreeNode<T> right;
@@ -167,6 +167,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
         return new Object[0];
     }
 
+    //Duplicated function can be removed
     @Override
     public <T> T[] toArray(T[] a) {
         return null;
