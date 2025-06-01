@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * float quantityLeft: the amount of food that is left
  * boolean opened: has the food been open or eaten yet?
  */
-
+//Consider lombok getter setters
 @Entity
 @DiscriminatorColumn(name = "item_type", discriminatorType = DiscriminatorType.STRING)
 public class FoodItem implements Comparable<FoodItem> {

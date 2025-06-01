@@ -169,6 +169,8 @@ public class FoodController implements Initializable {
     }
 
     //updates existing items in the table
+    //How exactly should this update? Is it intended to remove
+    // Expired items? That feature is non-functional
     @FXML
     private void handleUpdate() {
         FoodItem selected = foodTable.getSelectionModel().getSelectedItem();
