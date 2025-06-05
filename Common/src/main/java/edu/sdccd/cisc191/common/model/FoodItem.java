@@ -20,7 +20,7 @@ public class FoodItem implements Comparable<FoodItem> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
+    private String name;    //TODO: Consider indexing column if searching frequently
     private String foodType;
     private float quantityLeft;
 
