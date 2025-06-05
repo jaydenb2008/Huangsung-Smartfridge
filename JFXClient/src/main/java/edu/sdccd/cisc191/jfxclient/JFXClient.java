@@ -33,6 +33,7 @@ public class JFXClient extends Application {
             root = fxmlLoader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
+            //TODO: Show user-friendly message instead
         }
         Scene scene = new Scene(root, 600, 400);
         stage.setTitle("Food Data");

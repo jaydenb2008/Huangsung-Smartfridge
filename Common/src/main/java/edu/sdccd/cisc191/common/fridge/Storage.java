@@ -18,7 +18,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    private Long id; //TODO: if not using consider removing
 
     @Transient
     private TreeNode<T> root;
@@ -33,7 +33,7 @@ public class Storage<T extends Comparable<T>> implements Set<T> {
 
         private T item;
 
-        private int color;
+        private int color;  //TODO: No balancing logic required for red-black tree
         private TreeNode<T> left;
         private TreeNode<T> right;
 

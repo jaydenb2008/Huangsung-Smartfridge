@@ -67,6 +67,7 @@ class FoodController {
                     FoodItem saved = foodRepository.save(newFoodItem);
                     storage.add(saved);
                     return saved;
+                    //TODO: set newFoodItem id for clarity
                 });
     }
 
